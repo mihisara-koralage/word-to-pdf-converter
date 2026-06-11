@@ -4,8 +4,8 @@
   "description": "A simple Node.js Express application that allows users to upload a Word document and download it as a PDF.",
   "main": "index.js",
   "scripts": {
-     "start": "node app.js",
-     "dev": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/mihisara-koralage/word-to-pdf-converter#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "multer": "^2.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

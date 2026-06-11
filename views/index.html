@@ -11,8 +11,8 @@
 
         <p>Upload a Word document and convert it to PDF.</p>
 
-        <form>
-            <input type="file" accept=".docx">
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="document" accept=".docx" required>
             <br><br>
 
             <button type="submit">
