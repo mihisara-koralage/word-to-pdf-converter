@@ -1,6 +1,10 @@
 const express = require("express");
 const path = require("path");
 const multer = require("multer");
+const fs = require("fs");
+
+const { convertToPdf } =
+require("./controllers/convertController");
 
 const app = express();
 
@@ -45,14 +49,59 @@ app.get("/", (req, res) => {
 app.post(
     "/upload",
     upload.single("document"),
+    async (req, res) => {
+
+        try {
+
+            const uploadedFile =
+                req.file.path;
+
+            const pdfName =
+                Date.now() + ".pdf";
+
+            const outputPath =
+                "outputs/" + pdfName;
+
+            await convertToPdf(
+                uploadedFile,
+                outputPath
+            );
+
+	    fs.unlinkSync(uploadedFile);
+
+            res.send(`
+                <h2>Conversion Successful</h2>
+
+                <a href="/downloads/${pdfName}">
+                    Download PDF
+                </a>
+            `);
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send(
+                "Conversion failed"
+            );
+
+        }
+
+    }
+);
+
+app.get(
+    "/downloads/:file",
     (req, res) => {
 
-        console.log(req.file);
+        const filePath =
+            path.join(
+                __dirname,
+                "outputs",
+                req.params.file
+            );
 
-        res.send(`
-            <h2>Upload Successful!</h2>
-            <p>${req.file.originalname}</p>
-        `);
+        res.download(filePath);
 
     }
 );
