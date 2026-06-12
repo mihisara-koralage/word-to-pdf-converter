@@ -6,20 +6,48 @@
 </head>
 <body>
 
-    <div class="container">
-        <h1>Word to PDF Converter</h1>
+<div class="container">
 
-        <p>Upload a Word document and convert it to PDF.</p>
+    <h1>Word to PDF Converter</h1>
 
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="document" accept=".docx" required>
-            <br><br>
+    <p>
+        Upload a Microsoft Word document (.docx)
+        and convert it into PDF.
+    </p>
 
-            <button type="submit">
-                Convert to PDF
-            </button>
-        </form>
+    <form
+        action="/upload"
+        method="POST"
+        enctype="multipart/form-data"
+        onsubmit="showLoading()"
+    >
+
+        <input
+            type="file"
+            name="document"
+            accept=".docx"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Convert to PDF
+        </button>
+
+    </form>
+
+    <div id="loading" style="display:none;">
+        <p>Converting document...</p>
     </div>
+
+</div>
+
+<script>
+function showLoading() {
+    document.getElementById("loading").style.display = "block";
+}
+</script>
 
 </body>
 </html>

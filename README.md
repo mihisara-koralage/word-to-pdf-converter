@@ -4,9 +4,12 @@ A simple Node.js Express application that allows users to upload a Word document
 
 ## Features
 
-- Upload .docx files
-- Convert to PDF
-- Download PDF
+- Upload DOCX files
+- Convert DOCX to PDF
+- Download generated PDFs
+- File validation
+- Upload size limits
+- Error handling
 
 ## Tech Stack
 
