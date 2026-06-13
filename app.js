@@ -3,6 +3,9 @@ const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
 
+fs.mkdirSync("uploads", { recursive: true });
+fs.mkdirSync("outputs", { recursive: true });
+
 const { convertToPdf } =
 require("./controllers/convertController");
 
