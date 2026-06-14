@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    container_name: word-to-pdf-converter
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
+
+    env_file:
+      - .env
