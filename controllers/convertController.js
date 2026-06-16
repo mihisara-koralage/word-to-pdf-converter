@@ -1,29 +1,54 @@
-const fs = require("fs");
-const libre = require("libreoffice-convert");
+const path = require("path");
 
-exports.convertToPdf = async (inputPath, outputPath) => {
+const {
+    convertToPdf
+} = require(
+    "../services/pdfService"
+);
 
-    const file = fs.readFileSync(inputPath);
+exports.uploadDocument =
+async (req, res) => {
 
-    const pdfBuffer = await new Promise((resolve, reject) => {
+    try {
 
-        libre.convert(
-            file,
-            ".pdf",
-            undefined,
-            (err, done) => {
+        if (!req.file) {
 
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(done);
-                }
+            return res
+                .status(400)
+                .send(
+                    "No file uploaded"
+                );
 
-            }
+        }
+
+        const uploadedFile =
+            req.file.path;
+
+        const pdfName =
+            Date.now() + ".pdf";
+
+        const outputPath =
+            path.join(
+                "outputs",
+                pdfName
+            );
+
+        await convertToPdf(
+            uploadedFile,
+            outputPath
         );
 
-    });
+        res.redirect(`/success?file=${pdfName}`);
+        
+    } catch (error) {
 
-    fs.writeFileSync(outputPath, pdfBuffer);
+        console.error(error);
+
+        res.status(500)
+           .send(
+             "Conversion failed"
+           );
+
+    }
 
 };
