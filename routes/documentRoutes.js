@@ -11,6 +11,11 @@ const upload =
         "../middleware/uploadMiddleware"
     );
 
+const uploadLimiter =
+    require(
+        "../middleware/rateLimiter"
+    );
+
 const {
     uploadDocument
 } = require(
@@ -19,6 +24,7 @@ const {
 
 router.post(
     "/upload",
+    uploadLimiter,
     upload.single("document"),
     uploadDocument
 );

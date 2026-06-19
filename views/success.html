@@ -81,7 +81,7 @@
 
                 <p>Your PDF is ready.</p>
 
-                <a id="downloadLink" class="primary">
+                <a id="downloadLink" href="#" class="primary">
                     Download PDF
                 </a>
 
@@ -91,12 +91,7 @@
                     Convert Another File
                 </a>
             </div>
-            <script>
-                const params = new URLSearchParams(window.location.search);
-                const file = params.get("file");
 
-                document.getElementById("downloadLink").href =
-                    `/downloads/${file}`;
-            </script>
+            <script src="/js/success.js"></script>
         </body>
         </html>

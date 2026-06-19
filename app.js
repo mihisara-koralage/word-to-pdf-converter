@@ -7,6 +7,10 @@ const path =
 const fs =
     require("fs");
 
+const helmet = require("helmet");
+const morgan = require("morgan");
+const rateLimit = require("express-rate-limit");
+
 const documentRoutes =
     require(
         "./routes/documentRoutes"
@@ -15,6 +19,19 @@ const documentRoutes =
 const app =
     express();
 
+const limiter = rateLimit({
+
+    windowMs:
+        15 * 60 * 1000,
+
+    max: 20,
+
+    message:
+        "Too many requests. Try again later."
+
+});
+
+app.use(limiter);
 
 fs.mkdirSync(
     "uploads",
@@ -43,6 +60,9 @@ app.get("/", (req, res) => {
     );
 
 });
+
+app.use(helmet());
+app.use(morgan("combined"));
 
 
 app.use(
@@ -79,11 +99,32 @@ app.use(
 
         console.error(err);
 
-        res.status(500)
-           .send(err.message);
+        res.status(500).send(`
+        <h1>Error</h1>
+
+        <p>${err.message}</p>
+
+        <a href="/">
+            Back to Home
+        </a>
+        `);
 
     }
 );
+
+app.use((req, res) => {
+
+    res.status(404).send(`
+        <h1>404</h1>
+
+        <p>Page not found</p>
+
+        <a href="/">
+            Home
+        </a>
+    `);
+
+});
 
 const PORT =
     process.env.PORT || 3000;
