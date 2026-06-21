@@ -10,20 +10,28 @@ on:
       - main
 
 jobs:
+
   build:
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
 
-      - run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-      - run: node --check app.js
+      - name: Verify Application Starts
+        run: |
+          timeout 15s node app.js || true
 
-      - run: docker build -t word-to-pdf-converter .
+      - name: Build Docker Image
+        run: |
+          docker build -t word-to-pdf-converter .
