@@ -32,6 +32,7 @@ jobs:
             docker build -t word-to-pdf-converter .
 
             docker run -d \
+              --restart unless-stopped \
               --name word-to-pdf \
               -p 3000:3000 \
               word-to-pdf-converter
