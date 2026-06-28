@@ -1,14 +1,19 @@
 services:
-  app:
+  word-to-pdf:
+    image: word-to-pdf-converter:latest
     build: .
-    container_name: word-to-pdf-converter
+
+    container_name: word-to-pdf
 
     ports:
       - "3000:3000"
 
+    restart: unless-stopped
+
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+
     volumes:
       - ./uploads:/app/uploads
       - ./outputs:/app/outputs
-
-    env_file:
-      - .env

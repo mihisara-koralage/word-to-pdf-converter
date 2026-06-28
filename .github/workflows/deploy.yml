@@ -26,13 +26,6 @@ jobs:
 
             git pull
 
-            docker stop word-to-pdf || true
-            docker rm word-to-pdf || true
+            docker compose down
 
-            docker build -t word-to-pdf-converter .
-
-            docker run -d \
-              --restart unless-stopped \
-              --name word-to-pdf \
-              -p 3000:3000 \
-              word-to-pdf-converter
+            docker compose up -d --build
