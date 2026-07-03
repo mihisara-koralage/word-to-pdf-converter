@@ -1,6 +1,6 @@
 # 📄 Word to PDF Converter
 
-[![CI Pipeline](https://github.com/mihisara-koralage/word-to-pdf-converter/actions/workflows/ci.yml/badge.svg)](https://github.com/mihisara-koralage/word-to-pdf-converter/actions/workflows/ci.yml)
+[![Deploy to EC2](https://github.com/mihisara-koralage/word-to-pdf-converter/actions/workflows/deploy.yml/badge.svg)](https://github.com/mihisara-koralage/word-to-pdf-converter/actions/workflows/deploy.yml)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-Automated%20Push-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/)
 [![AWS EC2](https://img.shields.io/badge/AWS-EC2-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com/ec2/)
@@ -60,6 +60,46 @@ AWS EC2
    ├─ recreate container (docker compose)
    └─ health check
 ```
+**Architecture Diagram**
+
+```
+                    Developer
+                        │
+                 git push to GitHub
+                        │
+                        ▼
+               GitHub Repository
+                        │
+                        ▼
+              GitHub Actions (CI/CD)
+          ┌─────────────┴─────────────┐
+          │                           │
+          ▼                           ▼
+Build Docker Image             SSH into EC2
+          │                           │
+          ▼                           │
+Docker Hub Registry                   │
+          │                           │
+          └─────────────┬─────────────┘
+                        ▼
+               docker compose pull
+                        │
+                        ▼
+                  Docker Container
+                        │
+                        ▼
+             Word-to-PDF Converter
+                        │
+                        ▼
+                 LibreOffice Engine
+                        │
+                        ▼
+                  Generated PDF
+                        │
+                        ▼
+                     Browser
+```
+
 
 **Why this shape:** the registry (Docker Hub) decouples *build* from *deploy* — EC2 never builds anything, it only pulls a known-good, already-tested image. That keeps the production host's attack surface and toolchain minimal, and makes rollback as simple as pulling a previous tag.
 
