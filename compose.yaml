@@ -1,8 +1,6 @@
 services:
   word-to-pdf:
-    image: word-to-pdf-converter:latest
-    build: .
-
+    image: mihisara2004/word-to-pdf-converter:latest
     container_name: word-to-pdf
 
     ports:
